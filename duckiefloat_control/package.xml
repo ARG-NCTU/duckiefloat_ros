@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>duckiefloat_control</name>
+  <version>0.0.0</version>
+  <description>The duckiefloat package</description>
+
+  <maintainer email="bensonpuppy1997@gmail.com">biomotion</maintainer>
+
+  <license>MIT</license>
+
+  <!--   <depend>roscpp</depend> -->
+  <!--   <build_depend>roscpp</build_depend> -->
+  <!--   <exec_depend>roscpp</exec_depend> -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>

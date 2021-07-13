@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node respawn="true" pkg="joy" type="joy_node" name="joy_node" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.12" />
+  </node>
+
+  <node pkg="duckiefloat_control" type="joy_mapper_node.py" name="joy_mapper_node" output="screen" />
+
+  <node pkg="altitude_control" type="altitude_control_node.py" name="altitude_control_node" />
+  <node pkg="ir_height" type="height_node.py" name="height_node" />
+
+  <node pkg="duckiefloat_control" type="autonomous_control_node.py" name="autonomous_control_node" />
+
+  <node pkg="motor_control" type="control_node_tiltable_brushless.py" name="motor_node" output="screen" />
+  <node pkg="pwm_pca9685" type="pca9685_node" name="servo_node" />
+
+  <include file="$(find dynamixel_tutorials)/launch/controller_spawner.launch"></include>
+
+</launch>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="param_file_name" default="default" doc="Specify a param file."/>
+
+    <!-- estop node -->
+    <node pkg="rpi_gpio_estop" name="estop_node" type="estop_node.py" output="screen"/>
+
+    <!-- joy_node -->
+    <node respawn="true" pkg="joy" type="joy_node" name="joy_node" >
+        <param name="dev" type="string" value="/dev/input/js0" />
+        <param name="deadzone" value="0.12" />
+    </node>
+
+    <!-- height control -->
+    <node pkg="duckiefloat_control" type="height_control_node.py" name="height_control_node" output="screen"/>
+    <node pkg="ir_height" type="height_node.py" name="height_node" />
+    
+    <!-- joy_mapper -->
+    <node pkg="duckiefloat_control" type="joy_mapper_node.py" name="joy_mapper_node" output="screen" clear_params="true" required="true">
+    </node>
+
+    <node pkg="motor_control" type="control_node.py" name="control_node" output="screen" />
+
+    <!-- Subscribe Topics -->
+    <!-- "joy": sensor_msgs/Joy. The command read from joystick -->
+    <!-- Publish Topics -->
+    <!-- "~cmd_vel": geometry_msgs/Twist. Motors command -->
+</launch>

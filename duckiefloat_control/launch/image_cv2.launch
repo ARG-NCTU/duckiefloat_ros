@@ -1,0 +1,11 @@
+<launch>
+  <node name="camera_node" 
+        pkg="duckiefloat_control" 
+        type="picamera_node.py" />
+  <node name="rgb_set" 
+        pkg="duckiefloat_control" 
+        type="rgb_set.py" />
+  <node name="image2ad" 
+        pkg="duckiefloat_control" 
+        type="image2ad_node.py" />
+</launch>

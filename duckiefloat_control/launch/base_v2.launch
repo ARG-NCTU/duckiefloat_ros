@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="veh" default="df02" />
+  <group ns="$(arg veh)">
+    <!-- estop node -->
+    <!--
+    <node pkg="duckiefloat_control" type="xbee_estop_node.py" name="xbee_estop_node" output="screen" >
+      <param name="port" type="string" value="/dev/ftdi_DN066LP0" />
+    </node>
+    -->
+    <node pkg="duckiefloat_control" type="estop_node.py" name="estop_node" output="screen" />
+
+    <!-- joy_node -->
+    <node respawn="true" pkg="joy" type="joy_node" name="joy_node" >
+      <param name="dev" type="string" value="/dev/input/js0" />
+      <param name="deadzone" value="0.12" />
+    </node>
+
+    <node pkg="duckiefloat_control" type="joy_mapper_node.py" name="joy_mapper_node" output="screen" />
+
+    <!-- height control -->
+    <node pkg="altitude_control" type="altitude_control_node.py" name="altitude_control_node" output="screen"/>
+    <node pkg="ir_height" type="height_node.py" name="height_node" />
+    
+    <!--<node pkg="duckiefloat_control" type="autonomous_control_node.py" name="autonomous_control_node" /> -->
+
+    <node pkg="motor_control" type="control_node_v2.py" name="control_node" output="screen" />
+
+  </group>
+  <!-- lora communication 
+  <include file="$(find lora_communication)/launch/glora_client_duckiefloat.launch" >
+	  <arg name="veh" value="$(arg veh)" />
+  </include> 
+  -->
+</launch>
