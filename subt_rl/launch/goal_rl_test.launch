@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <!-- <arg name="veh" default="husky1" /> -->
+
+    <!-- <include file="$(find subt_rl)/launch/pcToLaser_240.launch">
+        <arg name="veh" value="$(arg veh)" />
+    </include> -->
+
+    <include file="$(find subt_rl)/launch/pcToLaser_240_sim_x2.launch">
+    </include>
+
+    <node pkg="mapping" type="pub_wheel_tf_x2.py" name="pub_wheel_tf" output="screen">
+        <param name="frame_name" value="/X2/base_link" />
+        <param name="parent_name" value="/X2/odom" />
+        <remap from="odom" to="/X2/x2_velocity_controller/odom" />
+    </node>
+
+    <node pkg="subt_rl" type="goal_nav_x2.py" name="goal_nav_rl" output="screen">
+        <param name="frame" value="X2/odom" />
+
+        <remap from="goal_in" to="/move_base_simple/goal" />
+        <remap from="laser_in" to="/RL/scan" />
+        <remap from="odom_in" to="/X2/x2_velocity_controller/odom" />
+
+        <remap from="cmd_out" to="/X2/x2_velocity_controller/cmd_vel" /> 
+    </node>
+
+</launch>

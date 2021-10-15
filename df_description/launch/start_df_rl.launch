@@ -1,0 +1,8 @@
+<launch>
+    <include file="$(find df_description)/launch/df_description.launch" />
+    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+    <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch" />
+    <include file="$(find gmapping)/launch/slam_gmapping_df.launch" />
+    <node pkg="subt_rl" type="pub_loam_tf.py" name="pub_loam_tf" output="screen" />
+    <include file="$(find subt_rl)/launch/goal_rl_tf_df.launch" />
+</launch>

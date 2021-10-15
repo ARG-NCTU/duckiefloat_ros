@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <arg name="sim" default="True" />
+    <arg name="veh" default="duckie_alpha" />
+
+
+    <group ns="$(arg veh)">
+        <node pkg="subt_rl" type="run_rdpg.py" name="run_rdpg" output="screen">
+            <param name="model" value="subt_rl495.ckpt-1037" />
+            <param name="sim" value="$(arg sim)" />
+        </node>
+    </group>
+
+</launch>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="veh" default="husky1" />
+    <arg name="cmd" default="husky_velocity_controller/cmd_vel" />
+    <arg name="joy" default="joy" />
+
+    <include file="$(find subt_rl)/launch/pcToLaser_240.launch">
+        <arg name="veh" value="$(arg veh)" />
+    </include>
+
+    <group ns="$(arg veh)">
+
+        <node pkg="subt_rl" type="goal_nav_tf.py" name="goal_nav_rl" output="screen">
+
+            <remap from="goal_in" to="/move_base_simple/goal" />
+            <remap from="laser_in" to="RL/scan" />
+            <remap from="odom_in" to="/slam_pose" />
+            <remap from="joy" to="$(arg joy)" />
+            <remap from="cmd_out" to="$(arg cmd)" />
+        </node>
+
+    </group>
+
+
+</launch>

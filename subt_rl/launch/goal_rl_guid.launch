@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <arg name="veh" default="" />
+    <arg name="cloud_in" default="/velodyne1/velodyne_points" />
+    
+    <include file="$(find subt_rl)/launch/pcToLaser_240.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="cloud_in" value="$(arg cloud_in)" />
+    </include>
+
+    <group ns="$(arg veh)">
+        <node pkg="subt_rl" type="goal_nav_guid_test.py" name="goal_nav_guid" output="screen">
+	    <param name="linear_scale" value="0.3" />
+            <param name="angular_scale" value="0.7" />
+	    <remap from="goal_in" to="rl_goal" />
+            <remap from="laser_in" to="RL/scan" />
+	    <remap from="cmd_out" to="/jackal_velocity_controller/cmd_vel" />
+	    <remap from="joy" to="/bluetooth_teleop/joy" />
+    	</node>
+    </group>
+
+</launch>

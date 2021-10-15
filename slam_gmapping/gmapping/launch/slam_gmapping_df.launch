@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="veh" doc="df" />
+  <arg name="base_frame" default="base_link" />
+  <arg name="odom_frame" default="odom" />
+  <arg name="map_frame" default="map" />
+  <arg name="scan" default="scan" />
+  <arg name="odom_topic" default="odom_rf2o" />
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <rosparam command="load" file="$(find gmapping)/config/param.yaml" />
+    <remap from="scan" to="$(arg scan)" />
+    <param name="base_frame" value="$(arg base_frame)" />
+    <param name="map_frame" value="$(arg map_frame)" />
+    <param name="odom_frame" value="$(arg odom_frame)" />
+  </node>
+  <node pkg="mapping" type="odom_tf.py" name="odom_tf" output="screen">
+    <remap from="wheel_odom" to="$(arg odom_topic)" />
+  </node>
+</launch>

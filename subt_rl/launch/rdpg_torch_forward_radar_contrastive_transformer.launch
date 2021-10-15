@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="veh" default="husky1" />
+
+    <node ns="$(arg veh)" pkg="subt_rl" type="torch_rdpg_forward_transformer.py" name="run_rdpg" output="screen" clear_params="true">
+
+        <remap from="odom" to="husky_velocity_controller/odom" />
+        <remap from="cmd_vel" to="husky_velocity_controller/cmd_vel" />
+        <remap from="joy" to="joy_teleop/joy" />
+    </node>
+
+</launch>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="veh" doc="please specify veh" />
+  <arg name="base_frame" default="base_link" />
+  <arg name="odom_frame" default="odom" />
+  <arg name="map_frame" default="map" />
+  <arg name="scan" default="scan" />
+  <arg name="pointcloud_topic" default="velodyne1/velodyne_points" />
+  <arg name="odom_topic" default="husky_velocity_controller/odom" />
+
+  <!-- pointcloud to laser -->
+  <include file="$(find pointcloud_to_laserscan)/launch/pcl2laser.launch">
+    <arg name="robot" value="$(arg veh)" />
+    <arg name="pointcloud_topic" value="velodyne1/velodyne_points" />
+  </include>
+
+  <group ns="$(arg veh)">
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+      <rosparam command="load" file="$(find gmapping)/config/param.yaml" />
+      <remap from="scan" to="$(arg scan)" />
+      <param name="base_frame" value="$(arg base_frame)" />
+      <param name="map_frame" value="$(arg map_frame)" />
+      <param name="odom_frame" value="$(arg odom_frame)" />
+    </node>
+    <node pkg="mapping" type="odom_tf.py" name="odom_tf" output="screen">
+      <remap from="wheel_odom" to="$(arg odom_topic)" />
+    </node>
+  </group>
+</launch>

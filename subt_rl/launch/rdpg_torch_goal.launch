@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <arg name="model" default="s0312_f2999729.pth" />
+    <arg name="map_frame" default="map" />
+    <arg name="laser_in" default="RL/scan" />
+    <arg name="odom_in" default="odom_pose" />
+    <arg name="cmd_out" default="/X1/x1_velocity_controller/cmd_vel" />
+    <arg name="joy" default="joy" />
+    <arg name="goal_in" default="move_base_simple/goal" />
+
+    <node pkg="subt_rl" type="torch_rdpg_goal.py" name="run_rdpg_goal" output="screen">
+      <param name="model" value="$(arg model)" />
+      <param name="frame" value="$(arg map_frame)" />
+
+      <remap from="laser_in" to="$(arg laser_in)" />
+      <remap from="odom_in" to="$(arg odom_in)" />
+      <remap from="cmd_out" to="$(arg cmd_out)" />
+      <remap from="joy" to="$(arg joy)" />
+      <remap from="goal_in" to="$(arg goal_in)" />
+    </node>
+
+</launch>

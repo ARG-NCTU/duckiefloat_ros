@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot name="duckiefloat">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.25 .16 .05"/>
+    </geometry>
+    <origin rpy="0 0 1.57075" xyz="0 0 0"/>
+    <material name="blue">
+        <color rgba="0 0 .8 1"/>
+    </material>
+    </visual>
+  </link>
+
+  <link name="laser">
+    <visual>
+      <geometry>
+        <cylinder length=".02" radius="0.025"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="laser" type="continuous">
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="laser"/>
+    <origin rpy="3.14159 0 0" xyz="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+
+</robot>

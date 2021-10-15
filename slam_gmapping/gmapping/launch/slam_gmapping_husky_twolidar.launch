@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="veh" default="husky2" />
+  <arg name="base_frame" default="base_link" />
+  <arg name="odom_frame" default="odom" />
+  <arg name="map_frame" default="map" />
+  <arg name="scan" default="scan" />
+  <arg name="odom_topic" default="husky_velocity_controller/odom" />
+
+  <arg name="lidar1_angle_min" default="0" />
+  <arg name="lidar1_angle_max" default="1.571" />
+  <arg name="lidar2_angle_min" default="-1.571" />
+  <arg name="lidar2_angle_max" default="0" />
+
+  <!-- two lidar points merge -->
+  <include file="$(find mapping)/launch/two_lidar_merge.launch">
+    <arg name="veh" value="$(arg veh)" />
+    <arg name="lidar1_angle_min" value="$(arg lidar1_angle_min)" />
+    <arg name="lidar1_angle_max" value="$(arg lidar1_angle_max)" />
+    <arg name="lidar2_angle_min" value="$(arg lidar2_angle_min)" />
+    <arg name="lidar2_angle_max" value="$(arg lidar2_angle_max)" />
+  </include>
+
+  <!-- pointcloud to laser -->
+  <include file="$(find pointcloud_to_laserscan)/launch/pcl2laser.launch">
+    <arg name="robot" value="$(arg veh)" />
+    <arg name="pointcloud_topic" value="lidar_merge_points" />
+  </include>
+
+  <group ns="$(arg veh)">
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+      <rosparam command="load" file="$(find gmapping)/config/param.yaml" />
+      <remap from="scan" to="$(arg scan)" />
+      <param name="base_frame" value="$(arg base_frame)" />
+      <param name="map_frame" value="$(arg map_frame)" />
+      <param name="odom_frame" value="$(arg odom_frame)" />
+    </node>
+    <node pkg="mapping" type="odom_tf.py" name="odom_tf" output="screen">
+      <remap from="wheel_odom" to="$(arg odom_topic)" />
+    </node>
+  </group>
+</launch>

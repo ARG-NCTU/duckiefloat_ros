@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="pkg_name" value="ir_height"/>
+    <arg name="node_name" default="infrared_pub"/>
+    <arg name="param_file_name" default="default" doc="Specify a param file."/>
+
+    <node name="$(arg node_name)" pkg="$(arg pkg_name)" type="$(arg node_name).py" output="screen"/>
+    <node name="get_height" pkg="$(arg pkg_name)" type="get_height" output="screen"/>
+
+</launch>

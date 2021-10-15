@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="veh" default="husky1" />
+
+    <node ns="$(arg veh)" pkg="subt_rl" type="denoise_mmwave_transformer.py" name="denoise_mmwave" output="screen" clear_params="true">
+        <remap from="recon_laser" to="RL/denoised_mmwave" />
+    </node>
+
+
+</launch>

@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <arg name="veh" default="husky1" />
+
+    <include file="$(find subt_rl)/launch/pcToLaser_240.launch">
+        <arg name="veh" value="$(arg veh)" />
+    </include>
+
+
+    <node ns="$(arg veh)" pkg="subt_rl" type="torch_rdpg_forward_sonar.py" name="run_rdpg" output="screen">
+        <param name="model" value="s1536_f1869509.pth" />
+        
+        <remap from="laser" to="RL/scan" />
+        <remap from="odom" to="husky_velocity_controller/odom" />
+        <remap from="cmd_vel" to="husky_velocity_controller/cmd_vel" />
+        <remap from="joy" to="joy_teleop/joy" />
+    </node>
+
+</launch>
