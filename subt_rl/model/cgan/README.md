@@ -1,4 +1,0 @@
-cGAN
-ID 
-- 0827_1851
-    - 1KSgA1O-BKuRzav8Ew-bALgKJY490qZKO

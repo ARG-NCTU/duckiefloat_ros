@@ -1,3 +1,0 @@
-Header header
-std_msgs/Int16MultiArray observation
-float32 closestDistance
